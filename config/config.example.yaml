@@ -1,0 +1,5 @@
+env: local
+level: debug
+host: localhost
+port: 8080
+storage_path: ./storage/sqlite/pr.db
