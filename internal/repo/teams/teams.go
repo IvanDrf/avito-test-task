@@ -27,6 +27,12 @@ func (r *teamsRepo) CreateTeam(ctx context.Context, teamID string, team *api.Tea
 		return errs.ErrCantStartTransaction()
 	}
 
+	err = updateUsers(ctx, tr, team.Members)
+	if err != nil {
+		tr.Rollback()
+		return errs.ErrCantCreateNewTeam()
+	}
+
 	err = insertTeam(ctx, tr, teamID, team)
 	if err != nil {
 		tr.Rollback()
@@ -40,6 +46,22 @@ func (r *teamsRepo) CreateTeam(ctx context.Context, teamID string, team *api.Tea
 	}
 
 	return tr.Commit()
+}
+
+func updateUsers(ctx context.Context, tr *sql.Tx, members []api.TeamMember) error {
+	for _, member := range members {
+		query := fmt.Sprintf("INSERT OR REPLACE INTO %s (id, name, is_active) VALUES (?, ?, ?)", repo.UsersTable)
+
+		_, err := tr.ExecContext(ctx, query,
+			member.UserId,
+			member.Username,
+			member.IsActive,
+		)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func insertTeam(ctx context.Context, tr *sql.Tx, teamID string, team *api.Team) error {
