@@ -1,6 +1,4 @@
 CREATE TABLE IF NOT EXISTS members(
-    id TEXT PRIMARY KEY TEXT,
-    
     team_id TEXT NOT NULL,
     user_id TEXT NOT NULL,
 

@@ -1,6 +1,4 @@
 CREATE TABLE IF NOT EXISTS reviewers(
-    id TEXT PRIMARY KEY,
-    
     pr_id TEXT NOT NULL,
     first_reviewer_id TEXT,
     second_reviewer_id TEXT,

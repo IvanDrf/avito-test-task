@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS pull_requests(
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     author_id TEXT NOT NULL,
-    status TEXT NOT NULL CHECK(status IN ('OPEN', 'MERGED')),
+    status TEXT NOT NULL CHECK(status IN ('OPEN', 'MERGED')) DEFAULT 'OPEN',
 
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     merged_at DATETIME DEFAULT NULL,
