@@ -15,6 +15,7 @@ func main() {
 	app := app.New(cfg)
 	stop := make(chan os.Signal, 1)
 
+	go app.Run()
 	signal.Notify(stop, syscall.SIGABRT, syscall.SIGTERM, syscall.SIGINT)
 
 	<-stop
