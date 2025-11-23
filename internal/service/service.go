@@ -1,19 +1,23 @@
 package service
 
-import "github.com/IvanDrf/avito-test-task/pkg/api"
+import (
+	"database/sql"
 
-type TeamService interface {
-	AddTeam(team *api.Team) error
-	GetTeam(teamName string) (*api.Team, error)
+	pullrequests "github.com/IvanDrf/avito-test-task/internal/service/pull_requests"
+	"github.com/IvanDrf/avito-test-task/internal/service/teams"
+	"github.com/IvanDrf/avito-test-task/internal/service/users"
+)
+
+type service struct {
+	*teams.TeamsService
+	*users.UsersService
+	*pullrequests.PullRequestService
 }
 
-type UserService interface {
-	ChangeUserActivity(user *api.PostUsersSetIsActiveJSONBody) error
-}
-
-type PullRequestService interface {
-	CreatePullRequest(pullRequest *api.PostPullRequestCreateJSONBody) (*api.PullRequest, error)
-	GetPullRequest(userID string) ([]api.PullRequestShort, error)
-	MergedPullRequest(pullRequestID string) error
-	ReassignReviewer(pullRequestID string, oldUserID string) (*api.PullRequest, error)
+func NewService(db *sql.DB) service {
+	return service{
+		teams.NewTeamsService(db),
+		users.NewUsersService(db),
+		pullrequests.NewPullRequestService(db),
+	}
 }
