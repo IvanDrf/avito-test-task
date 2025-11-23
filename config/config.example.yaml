@@ -2,4 +2,4 @@ env: local
 level: debug
 host: localhost
 port: 8080
-storage_path: ./storage/sqlite/pr.db
+storage_path: ${STORAGE_PATH:./storage/sqlite/pr.db}

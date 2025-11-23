@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS idx_team_name ON teams(name);

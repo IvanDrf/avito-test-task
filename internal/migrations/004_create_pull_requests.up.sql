@@ -1,8 +1,11 @@
 CREATE TABLE IF NOT EXISTS pull_requests(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
-    author_id INTEGER NOT NULL,
-    status TEXT NOT NULL CHECK(status IN ('OPEN', 'MERGED')),
+    author_id TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('OPEN', 'MERGED')) DEFAULT 'OPEN',
+
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    merged_at DATETIME DEFAULT NULL,
 
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
