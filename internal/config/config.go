@@ -18,7 +18,10 @@ type Config struct {
 	StoragePath string `yaml:"storage_path" `
 }
 
-const defaultPath = "./config/config.yaml"
+const (
+	defaultPath = "./config/config.yaml"
+	examplePath = "./config/config.example.yaml"
+)
 
 func MustLoad() *Config {
 	cfgPath := getPathFromFlag()
@@ -27,7 +30,7 @@ func MustLoad() *Config {
 	}
 
 	if _, err := os.Stat(cfgPath); os.IsNotExist(err) {
-		log.Fatal("cant find config file " + cfgPath)
+		cfgPath = examplePath
 	}
 
 	cfg := new(Config)
